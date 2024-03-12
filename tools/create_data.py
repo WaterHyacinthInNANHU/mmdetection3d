@@ -3,6 +3,8 @@ import argparse
 from os import path as osp
 
 from mmengine import print_log
+import sys
+sys.path.append(osp.join(osp.dirname(__file__), '../'))
 
 from tools.dataset_converters import indoor_converter as indoor
 from tools.dataset_converters import kitti_converter as kitti
@@ -285,6 +287,18 @@ parser.add_argument(
     required=False,
     help='specify sweeps of lidar per example')
 parser.add_argument(
+    '--scene-starts-at',
+    type=int,
+    default=None,
+    required=False,
+    help='specify the starting frame number of each scene')
+parser.add_argument(
+    '--scene-ends-at',
+    type=int,
+    default=None,
+    required=False,
+    help='specify the ending frame number of each scene')
+parser.add_argument(
     '--with-plane',
     action='store_true',
     help='Whether to use plane information for kitti.')
@@ -317,6 +331,11 @@ args = parser.parse_args()
 if __name__ == '__main__':
     from mmengine.registry import init_default_scope
     init_default_scope('mmdet3d')
+
+    # slice scenes
+    if args.dataset == 'nuscenes':
+        from nuscenes.eval.common.config import update_loader_config
+        update_loader_config(vars(args))
 
     if args.dataset == 'kitti':
         if args.only_gt_database:
