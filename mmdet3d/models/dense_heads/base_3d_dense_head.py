@@ -178,6 +178,7 @@ class Base3DDenseHead(BaseModule, metaclass=ABCMeta):
         batch_input_metas = [
             data_samples.metainfo for data_samples in batch_data_samples
         ]
+        # batch_input_metas = [dict()]    # DEBUG, for params and flops test
         outs = self(x)
         predictions = self.predict_by_feat(
             *outs, batch_input_metas=batch_input_metas, rescale=rescale)
@@ -340,7 +341,7 @@ class Base3DDenseHead(BaseModule, metaclass=ABCMeta):
             mlvl_bboxes.append(bboxes)
             mlvl_scores.append(scores)
             mlvl_dir_scores.append(dir_cls_score)
-
+        # return  # DEBUG, for params and flops test
         mlvl_bboxes = torch.cat(mlvl_bboxes)
         mlvl_bboxes_for_nms = xywhr2xyxyr(input_meta['box_type_3d'](
             mlvl_bboxes, box_dim=self.box_code_size).bev)

@@ -187,7 +187,7 @@ def get_available_scenes(nusc):
     return available_scenes
 
 
-def _fill_trainval_infos(nusc,
+def _fill_trainval_infos(nusc:NuScenes,
                          train_scenes,
                          val_scenes,
                          test=False,
@@ -214,7 +214,11 @@ def _fill_trainval_infos(nusc,
     nus_dataset = NuscenesDataset(dataroot=nusc.dataroot, version=nusc.version)
     for scene in nus_dataset:
         sample_list = scene.samples
+        if scene.token not in train_scenes and scene.token not in val_scenes:
+            continue
         for sample in sample_list[cfg_loader['scene_starts_at']:cfg_loader['scene_ends_at']]:
+            if sample['scene_token'] not in train_scenes and sample['scene_token'] not in val_scenes:
+                continue
             lidar_token = sample['data']['LIDAR_TOP']
             sd_rec = nusc.get('sample_data', sample['data']['LIDAR_TOP'])
             cs_record = nusc.get('calibrated_sensor',

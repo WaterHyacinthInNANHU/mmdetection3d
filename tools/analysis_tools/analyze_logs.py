@@ -78,7 +78,7 @@ def plot_curve(log_dicts, args):
                 xs = []
                 ys = []
                 for epoch in epochs:
-                    iters = log_dict[epoch]['step']
+                    iters = log_dict[epoch]['iter']
                     xs.append(np.array(iters))
                     ys.append(np.array(log_dict[epoch][metric][:len(iters)]))
                 xs = np.concatenate(xs)

@@ -32,7 +32,7 @@ class Base3DDetector(BaseDetector):
     def forward(self,
                 inputs: Union[dict, List[dict]],
                 data_samples: OptSampleList = None,
-                mode: str = 'tensor',
+                mode: str = 'predict',
                 **kwargs) -> ForwardResults:
         """The unified entry for a forward process in both training and test.
 

@@ -361,6 +361,12 @@ if __name__ == '__main__':
                                         f'{args.extra_tag}_infos_train.pkl')
         else:
             train_version = f'{args.version}-trainval'
+            # update the config of sample index in the scene
+            from nuscenes.eval.common.config import update_loader_config
+            update_config = {"scene_starts_at":args.scene_starts_at, \
+                                            "scene_ends_at":args.scene_ends_at}
+            update_loader_config(update_config)
+            print('Update the Nuscenes config of sample index in the scene:', update_config)
             nuscenes_data_prep(
                 root_path=args.root_path,
                 info_prefix=args.extra_tag,

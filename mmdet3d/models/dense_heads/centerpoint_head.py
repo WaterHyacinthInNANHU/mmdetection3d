@@ -684,6 +684,7 @@ class CenterHead(BaseModule):
         batch_input_metas = []
         for batch_index in range(batch_size):
             metainfo = batch_data_samples[batch_index].metainfo
+            # metainfo = dict()     # DEBUG, for params and flops test
             batch_input_metas.append(metainfo)
 
         results_list = self.predict_by_feat(
@@ -752,6 +753,7 @@ class CenterHead(BaseModule):
             batch_reg_preds = [box['bboxes'] for box in temp]
             batch_cls_preds = [box['scores'] for box in temp]
             batch_cls_labels = [box['labels'] for box in temp]
+            # return  # DEBUG, for params and flops test
             if self.test_cfg['nms_type'] == 'circle':
                 ret_task = []
                 for i in range(batch_size):
